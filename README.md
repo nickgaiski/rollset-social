@@ -76,7 +76,7 @@ Paste the key into `.env`, then start from source:
 docker compose -f docker-compose.development.yaml up -d --build
 ```
 
-That Compose file builds the image from this repo's `Dockerfile`. It runs the web app, queue worker, and scheduler in one container — ideal for a single box. It defaults to SQLite with no external services, and you can switch to Postgres/Redis later if you need to scale out.
+That Compose file builds the image from this repo's `Dockerfile`. `docker-compose.production.yaml` is the production-env counterpart and also builds from this repo's `Dockerfile`. It runs the web app, queue worker, and scheduler in one container — ideal for a single box. It defaults to SQLite with no external services, and you can switch to Postgres/Redis later if you need to scale out.
 
 Rollset Social runs its startup tasks automatically, including database migrations. Open `http://localhost:8080`, register the first account, and you're in.
 
