@@ -67,7 +67,7 @@ export function WelcomeModal({ welcomed }: { welcomed: boolean }) {
                                     }}
                                 />
                                 <m.span
-                                    className="relative grid size-14 place-items-center rounded-full bg-primary-gradient text-primary-foreground shadow-md inset-shadow-[0_1px_0_0_var(--primary-gradient-highlight)]"
+                                    className="relative grid size-14 place-items-center"
                                     initial={{ opacity: 0, scale: 0.5 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     transition={{
@@ -77,7 +77,7 @@ export function WelcomeModal({ welcomed }: { welcomed: boolean }) {
                                         delay: 0.08,
                                     }}
                                 >
-                                    <AppLogoIcon className="size-7" />
+                                    <AppLogoIcon className="size-14" />
                                 </m.span>
                             </div>
 
@@ -110,11 +110,11 @@ export function WelcomeModal({ welcomed }: { welcomed: boolean }) {
                 <DialogHeader>
                     <DialogTitle>
                         Welcome to{' '}
-                        <span className="bg-gradient-to-br from-[color-mix(in_oklch,var(--primary)_70%,black)] to-[color-mix(in_oklch,var(--primary)_48%,black)] bg-clip-text text-transparent dark:from-primary dark:to-[color-mix(in_oklch,var(--primary)_65%,white)]">
-                            Shoutrrr
+                        <span className="brand-wordmark bg-gradient-to-br from-[color-mix(in_oklch,var(--primary)_70%,black)] to-[color-mix(in_oklch,var(--primary)_48%,black)] bg-clip-text text-transparent dark:from-primary dark:to-[color-mix(in_oklch,var(--primary)_65%,white)]">
+                            Rollset
                         </span>
                     </DialogTitle>
-                    <DialogDescription>
+                    <DialogDescription className="brand-tagline">
                         Write once, send everywhere. Connect a destination and
                         your posts go out to every account at once.
                     </DialogDescription>

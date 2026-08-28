@@ -5,6 +5,10 @@
 @import 'shadcn/tailwind.css';
 
 @import '@fontsource-variable/noto-sans';
+@import '@fontsource-variable/geist';
+@import '@fontsource-variable/geist-mono';
+@import '@fontsource/instrument-serif/400.css';
+@import '@fontsource/instrument-serif/400-italic.css';
 
 @source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
@@ -13,14 +17,16 @@
 
 @theme {
     --font-sans:
-        'Noto Sans Variable', ui-sans-serif, system-ui, sans-serif,
-        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+        'Geist Variable', 'Noto Sans Variable', ui-sans-serif, system-ui,
+        sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
         'Noto Color Emoji';
 
-    /* Editorial display face for public/marketing surfaces (e.g. share page).
-       Falls back to a system serif; upgrades to Fraunces if that font is added. */
+    /* Instrument Serif is for taglines only (italic). Geist Mono is technical chrome. */
     --font-display:
-        'Fraunces Variable', ui-serif, Georgia, 'Times New Roman', serif;
+        'Instrument Serif', ui-serif, Georgia, 'Times New Roman', serif;
+    --font-mono:
+        'Geist Mono Variable', ui-monospace, SFMono-Regular, Menlo, Monaco,
+        Consolas, 'Liberation Mono', 'Courier New', monospace;
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
@@ -76,41 +82,43 @@
 }
 
 :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.841 0.238 128.85);
-    --primary-foreground: oklch(0.405 0.101 131.063);
-    --secondary: oklch(0.967 0.001 286.375);
-    --secondary-foreground: oklch(0.21 0.006 285.885);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --destructive-foreground: oklch(0.577 0.245 27.325);
-    --success: oklch(0.55 0.14 155);
-    --warning: oklch(0.6 0.15 70);
+    --ink: #0c0c0e;
+    --surface: #111114;
+    --raised: #17171b;
+    --elevated: #1e1e23;
+    --border-lt: #2e2e35;
+    --brand: #f5c97a;
+    --brand-dim: rgba(245, 201, 122, 0.07);
+    --brand-glow: rgba(245, 201, 122, 0.13);
+    --background: #fafafa;
+    --foreground: #0c0c0e;
+    --card: #ffffff;
+    --card-foreground: #0c0c0e;
+    --popover: #ffffff;
+    --popover-foreground: #0c0c0e;
+    --primary: #f5c97a;
+    --primary-foreground: #0c0c0e;
+    --secondary: #f4f4f5;
+    --secondary-foreground: #0c0c0e;
+    --muted: #f4f4f5;
+    --muted-foreground: #52525e;
+    --accent: #f4f4f5;
+    --accent-foreground: #0c0c0e;
+    --destructive: #ef4444;
+    --destructive-foreground: #ef4444;
+    --success: #22c55e;
+    --warning: #f59e0b;
     --info: oklch(0.55 0.16 255);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
+    --border: #e4e4e7;
+    --input: #e4e4e7;
+    --ring: #f5c97a;
     --chart-1: oklch(0.837 0.128 66.29);
     --chart-2: oklch(0.705 0.213 47.604);
     --chart-3: oklch(0.646 0.222 41.116);
     --chart-4: oklch(0.553 0.195 38.402);
     --chart-5: oklch(0.47 0.157 37.304);
-    /* Emphasis gradient, derived from --primary (Kumo's token-derived treatment):
-       a light-to-brand vertical wash, a 1px inset top highlight and a darker edge.
-
-       The mix percentages are ~2x Kumo's. Kumo is tuned for Cloudflare orange
-       (L=0.68), where +15% white travels 0.048 in lightness. Our lime sits at
-       L=0.84, so an identical +15% travels only 0.024 — half the effect — and
-       reads as flat until hover. Keep these calibrated to the *travel*, not to
-       Kumo's literal numbers, if --primary ever changes.
+    /* Emphasis gradient, derived from --primary: a light-to-brand vertical
+       wash, a 1px inset top highlight and a darker edge.
 
        Declared only here: .dark redefines --primary on the same element (<html>),
        so these re-resolve per theme on their own and must NOT be copied into
@@ -134,39 +142,39 @@
     --account-7: #4a3aa7;
     --account-8: #e34948;
     --radius: 0.625rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.648 0.2 131.684);
-    --sidebar-primary-foreground: oklch(0.986 0.031 120.757);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.708 0 0);
+    --sidebar: #fafafa;
+    --sidebar-foreground: #0c0c0e;
+    --sidebar-primary: #f5c97a;
+    --sidebar-primary-foreground: #0c0c0e;
+    --sidebar-accent: #f4f4f5;
+    --sidebar-accent-foreground: #0c0c0e;
+    --sidebar-border: #e4e4e7;
+    --sidebar-ring: #f5c97a;
 }
 
 .dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.768 0.233 130.85);
-    --primary-foreground: oklch(0.405 0.101 131.063);
-    --secondary: oklch(0.274 0.006 286.033);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --destructive-foreground: oklch(0.637 0.237 25.331);
-    --success: oklch(0.75 0.15 155);
-    --warning: oklch(0.78 0.14 70);
+    --background: #0c0c0e;
+    --foreground: #ececf0;
+    --card: #17171b;
+    --card-foreground: #ececf0;
+    --popover: #1e1e23;
+    --popover-foreground: #ececf0;
+    --primary: #f5c97a;
+    --primary-foreground: #0c0c0e;
+    --secondary: #17171b;
+    --secondary-foreground: #ececf0;
+    --muted: #1e1e23;
+    --muted-foreground: #8c8c99;
+    --accent: #1e1e23;
+    --accent-foreground: #ececf0;
+    --destructive: #ef4444;
+    --destructive-foreground: #ef4444;
+    --success: #22c55e;
+    --warning: #f59e0b;
     --info: oklch(0.72 0.14 255);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
+    --border: #232329;
+    --input: #2e2e35;
+    --ring: #f5c97a;
     --chart-1: oklch(0.837 0.128 66.29);
     --chart-2: oklch(0.705 0.213 47.604);
     --chart-3: oklch(0.646 0.222 41.116);
@@ -181,14 +189,14 @@
     --account-6: #008300;
     --account-7: #9085e9;
     --account-8: #e66767;
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.768 0.233 130.85);
-    --sidebar-primary-foreground: oklch(0.274 0.072 132.109);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0);
+    --sidebar: #111114;
+    --sidebar-foreground: #ececf0;
+    --sidebar-primary: #f5c97a;
+    --sidebar-primary-foreground: #0c0c0e;
+    --sidebar-accent: #17171b;
+    --sidebar-accent-foreground: #ececf0;
+    --sidebar-border: #232329;
+    --sidebar-ring: #f5c97a;
 }
 
 /* Registered so hover can animate. A gradient in background-image is not an
@@ -236,6 +244,17 @@
     html {
         @apply font-sans;
     }
+}
+
+.brand-wordmark {
+    font-family: 'Geist Variable', var(--font-sans);
+    font-weight: 600;
+    letter-spacing: -0.14em;
+}
+
+.brand-tagline {
+    font-family: var(--font-display);
+    font-style: italic;
 }
 
 /* Editor body paragraph spacing (no @tailwindcss/typography in this project). */
@@ -299,7 +318,7 @@
     padding: 0.18rem 0.56rem;
     border: 1px solid var(--border);
     border-radius: 9999px;
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-family: var(--font-mono);
     font-size: 10.5px;
     font-variant-numeric: tabular-nums;
     color: var(--muted-foreground);
@@ -373,7 +392,11 @@
 
 @theme inline {
     --font-heading: var(--font-sans);
-    --font-sans: 'Noto Sans Variable', sans-serif;
+    --font-sans: 'Geist Variable', 'Noto Sans Variable', sans-serif;
+    --font-display: 'Instrument Serif', ui-serif, Georgia, serif;
+    --font-mono:
+        'Geist Mono Variable', ui-monospace, SFMono-Regular, Menlo, Monaco,
+        Consolas, monospace;
     --color-sidebar-ring: var(--sidebar-ring);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);

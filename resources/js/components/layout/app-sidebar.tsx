@@ -57,7 +57,7 @@ import {
     workspaceSettingsNavItems,
     type WorkspaceSettingsNavKey,
 } from '@/lib/navigation/workspace-settings-nav';
-import { appVersion, githubReleaseUrl } from '@/lib/version';
+import { appVersion } from '@/lib/version';
 import { dashboard } from '@/routes';
 import { index as accountsRoute } from '@/routes/accounts';
 import { index as analyticsRoute } from '@/routes/analytics';
@@ -165,25 +165,30 @@ export function AppSidebar() {
                         </SidebarMenuButton>
                         <span className="relative flex group-data-[collapsible=icon]:hidden">
                             {(() => {
-                                const badge = (
-                                    <a
-                                        href={
-                                            updateAvailable && latestReleaseUrl
-                                                ? latestReleaseUrl
-                                                : githubReleaseUrl
-                                        }
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className={versionBadgeClassName}
-                                        aria-label={
-                                            updateAvailable
-                                                ? `Shoutrrr ${appVersion} — update ${latestVersion ?? ''} available on GitHub`
-                                                : `View Shoutrrr ${appVersion} release notes on GitHub`
-                                        }
-                                    >
-                                        {appVersion}
-                                    </a>
-                                );
+                                const badgeClassName = versionBadgeClassName;
+                                const label = updateAvailable
+                                    ? `Rollset Social ${appVersion} — update ${latestVersion ?? ''} available`
+                                    : `Rollset Social ${appVersion}`;
+
+                                const badge =
+                                    updateAvailable && latestReleaseUrl ? (
+                                        <a
+                                            href={latestReleaseUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className={badgeClassName}
+                                            aria-label={label}
+                                        >
+                                            {appVersion}
+                                        </a>
+                                    ) : (
+                                        <span
+                                            className={badgeClassName}
+                                            aria-label={label}
+                                        >
+                                            {appVersion}
+                                        </span>
+                                    );
 
                                 return updateAvailable ? (
                                     <Tooltip>

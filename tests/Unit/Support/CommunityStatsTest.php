@@ -4,6 +4,8 @@ use App\Support\AppVersion;
 use App\Support\CommunityStats;
 use Illuminate\Support\Facades\Cache;
 
+beforeEach(fn () => config(['instance.community.repo' => 'example/repo']));
+
 afterEach(fn () => AppVersion::fake(null));
 
 test('stars returns the cached integer or null', function () {
@@ -38,4 +40,13 @@ test('updateAvailable reflects the overall tag versus the running prerelease', f
 
     Cache::put(CommunityStats::LatestOverallCacheKey, AppVersion::current());
     expect(CommunityStats::updateAvailable())->toBeFalse();
+});
+
+test('an empty repo is never an available update, even with leftover newer cache', function () {
+    AppVersion::fake('v1.3.0-rc.5');
+    config(['instance.community.repo' => '']);
+    Cache::put(CommunityStats::LatestOverallCacheKey, 'v99.0.0');
+
+    expect(CommunityStats::updateAvailable())->toBeFalse();
+    expect(CommunityStats::latestVersion())->toBeNull();
 });

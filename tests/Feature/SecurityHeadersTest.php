@@ -25,6 +25,10 @@ test('responses carry a nonce-based content security policy', function () {
         ->and($csp)->toContain("img-src 'self' data: blob: https:")
         ->and($csp)->toContain("media-src 'self' blob:")
         ->and($csp)->toContain("connect-src 'self' blob:")
+        ->and($csp)->toContain("style-src 'self' 'unsafe-inline'")
+        ->and($csp)->toContain("font-src 'self' data:")
+        ->and($csp)->not->toContain('fonts.googleapis.com')
+        ->and($csp)->not->toContain('fonts.gstatic.com')
         ->and($csp)->toMatch("/script-src [^;]*'nonce-[A-Za-z0-9+\/=]+'/")
         ->and($csp)->toContain("'strict-dynamic'");
 });

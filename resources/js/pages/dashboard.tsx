@@ -118,7 +118,7 @@ export default function Dashboard({ posts, onboarding, savedMentions }: Props) {
                 {onboarding && <WelcomeModal welcomed={onboarding.welcomed} />}
                 <h1 className="text-[26px] leading-tight font-semibold tracking-tight">
                     {timeGreeting()},{' '}
-                    {/* Brand-green gradient name. Stops are derived from
+                    {/* Brand amber gradient name. Stops are derived from
                         --primary but darkened for light mode (the raw token is
                         too light to read on a white background, and the aura
                         sits behind it) and brightened for dark mode. */}

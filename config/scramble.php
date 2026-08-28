@@ -52,7 +52,7 @@ return [
     ],
 
     'ui' => [
-        'title' => 'Shoutrrr API',
+        'title' => 'Rollset Social API',
     ],
 
     'renderer' => 'elements',

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Cache;
 
 test('the three update props resolve updateData once per request', function () {
     config(['subscriptions.enabled' => false]);
+    config(['instance.community.repo' => 'example/repo']);
 
     $user = User::factory()->create();
     $request = Request::create('/dashboard');

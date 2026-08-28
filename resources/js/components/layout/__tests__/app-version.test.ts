@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { appVersion, githubReleaseUrl } from '@/lib/version';
+import { appVersion } from '@/lib/version';
 
 describe('app version badge', () => {
     it('exposes the app version injected at build time', () => {
@@ -10,9 +10,7 @@ describe('app version badge', () => {
         expect(typeof appVersion).toBe('string');
     });
 
-    it('links the displayed version to the matching GitHub release', () => {
-        expect(githubReleaseUrl).toBe(
-            `https://github.com/coollabsio/shoutrrr/releases/tag/${appVersion}`,
-        );
+    it('does not hardcode an upstream GitHub release URL', () => {
+        expect(appVersion).not.toContain('coollabsio/shoutrrr');
     });
 });

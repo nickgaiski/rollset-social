@@ -103,6 +103,30 @@ test('self-hosted names the available version and links to its release', functio
     );
 });
 
+test('empty community repo with leftover newer cache reports no update and no release url', function () {
+    AppVersion::fake('v1.3.0-rc.5');
+    config(['subscriptions.enabled' => false]);
+    config(['instance.community.repo' => '']);
+    Cache::put(CommunityStats::StarsCacheKey, 4210);
+    Cache::put(CommunityStats::LatestStableCacheKey, 'v99.0.0');
+    Cache::put(CommunityStats::LatestOverallCacheKey, 'v99.0.0');
+    actingOwnerInWorkspace();
+
+    $this->get(route('dashboard'))->assertInertia(fn ($page) => $page
+        ->missing('updateAvailable')
+        ->loadDeferredProps('sidebar', fn ($reload) => $reload
+            ->where('community', null)
+            ->where('updateAvailable', false)
+            ->where('latestVersion', null)
+            ->where('latestReleaseUrl', null)
+        )
+    );
+
+    expect(Cache::get(CommunityStats::StarsCacheKey))->toBeNull();
+    expect(Cache::get(CommunityStats::LatestStableCacheKey))->toBeNull();
+    expect(Cache::get(CommunityStats::LatestOverallCacheKey))->toBeNull();
+});
+
 test('self-hosted up-to-date exposes no available version', function () {
     config(['subscriptions.enabled' => false]);
     Cache::put(CommunityStats::LatestOverallCacheKey, AppVersion::current());

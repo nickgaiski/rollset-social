@@ -1,13 +1,13 @@
 import confetti, { type Options } from 'canvas-confetti';
 
-/** Brand-green-forward palette with white + gold sparkle for contrast. */
+/** Brand-amber palette with white + gold sparkle for contrast. */
 const COLORS = [
-    '#65a30d',
-    '#84cc16',
-    '#22c55e',
-    '#10b981',
+    '#F5C97A',
+    '#E8B86D',
+    '#D4A05A',
+    '#F59E0B',
     '#ffffff',
-    '#fde047',
+    '#ECECF0',
 ];
 
 /**
