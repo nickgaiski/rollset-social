@@ -305,16 +305,19 @@ class HandleInertiaRequests extends Middleware
      */
     private function updateData(): array
     {
+        $repo = (string) config('instance.community.repo');
+
+        if ($repo === '') {
+            CommunityStats::forget();
+
+            return ['updateAvailable' => false, 'latestVersion' => null, 'latestReleaseUrl' => null];
+        }
+
         if (config('subscriptions.enabled') || ! CommunityStats::updateAvailable()) {
             return ['updateAvailable' => false, 'latestVersion' => null, 'latestReleaseUrl' => null];
         }
 
         $latest = CommunityStats::latestVersion();
-        $repo = (string) config('instance.community.repo');
-
-        if ($repo === '') {
-            return ['updateAvailable' => true, 'latestVersion' => $latest, 'latestReleaseUrl' => null];
-        }
 
         return [
             'updateAvailable' => true,

@@ -1,5 +1,6 @@
 <?php
 
+use App\Services\Community\GithubStatsFetcher;
 use App\Support\CommunityStats;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
@@ -67,6 +68,41 @@ test('a failed GitHub response leaves the cache untouched', function () {
     $this->artisan('community:refresh-stats')->assertSuccessful();
 
     expect(CommunityStats::stars())->toBe(100);
+    expect(Cache::get(CommunityStats::LatestStableCacheKey))->toBeNull();
+    expect(Cache::get(CommunityStats::LatestOverallCacheKey))->toBeNull();
+});
+
+test('an empty repo forgets leftover community cache and does not call GitHub', function () {
+    config(['instance.community.repo' => '']);
+    Cache::put(CommunityStats::StarsCacheKey, 4210);
+    Cache::put(CommunityStats::LatestStableCacheKey, 'v99.0.0');
+    Cache::put(CommunityStats::LatestOverallCacheKey, 'v99.0.0');
+    Http::fake();
+
+    $this->artisan('community:refresh-stats')->assertSuccessful();
+
+    Http::assertNothingSent();
+    expect(CommunityStats::stars())->toBeNull();
+    expect(Cache::get(CommunityStats::LatestStableCacheKey))->toBeNull();
+    expect(Cache::get(CommunityStats::LatestOverallCacheKey))->toBeNull();
+});
+
+test('the GitHub stats fetcher forgets leftover cache when the repo is empty', function () {
+    config(['instance.community.repo' => '']);
+    Cache::put(CommunityStats::StarsCacheKey, 4210);
+    Cache::put(CommunityStats::LatestStableCacheKey, 'v99.0.0');
+    Cache::put(CommunityStats::LatestOverallCacheKey, 'v99.0.0');
+    Http::fake();
+
+    $stats = app(GithubStatsFetcher::class)->fetch();
+
+    Http::assertNothingSent();
+    expect($stats)->toBe([
+        'stars' => null,
+        'latest_stable' => null,
+        'latest_overall' => null,
+    ]);
+    expect(Cache::get(CommunityStats::StarsCacheKey))->toBeNull();
     expect(Cache::get(CommunityStats::LatestStableCacheKey))->toBeNull();
     expect(Cache::get(CommunityStats::LatestOverallCacheKey))->toBeNull();
 });

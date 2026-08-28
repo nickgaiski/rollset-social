@@ -23,6 +23,13 @@ class RefreshCommunityStats extends Command
             return self::SUCCESS;
         }
 
+        if (CommunityStats::repo() === '') {
+            CommunityStats::forget();
+            $this->info('Community stats cleared (no GitHub repo configured).');
+
+            return self::SUCCESS;
+        }
+
         $stats = $fetcher->fetch();
 
         if ($stats['stars'] !== null) {

@@ -85,14 +85,14 @@ class SecurityHeaders
             // 'unsafe-inline' is required for React inline style attributes and the
             // <style> element recharts injects at runtime; style injection is a low
             // XSS risk and script-src remains strict.
-            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+            "style-src 'self' 'unsafe-inline'",
             "img-src 'self' data: blob: https:",
             // blob: backs the composer's local video preview (URL.createObjectURL);
             // the storage origin backs playback of an already-uploaded video served
             // from a signed remote URL. Without media-src both fall through to
             // default-src 'self' and are blocked.
             "media-src {$media}",
-            "font-src 'self' data: https://fonts.gstatic.com",
+            "font-src 'self' data:",
             "connect-src {$connect}",
             "frame-ancestors 'none'",
             "base-uri 'self'",

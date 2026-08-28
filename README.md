@@ -56,75 +56,39 @@ It's built for individuals and teams: invite collaborators into a shared workspa
 
 ## Self-hosting
 
-The recommended way to host Rollset Social is the prebuilt Docker image:
-
-```bash
-docker pull ghcr.io/coollabsio/shoutrrr:latest
-```
-
-The image runs the web app, queue worker, and scheduler in one container — ideal for a single box. It defaults to SQLite with no external services, and you can switch to Postgres/Redis later if you need to scale out.
-
-### Quick start with `docker run`
-
-Create a production env file:
-
-```bash
-cat > .env.prod <<'EOF'
-APP_URL=http://localhost:8080
-APP_KEY=base64:PASTE_GENERATED_KEY_HERE
-EOF
-```
-
-Generate an `APP_KEY` and paste it into `.env.prod`:
-
-```bash
-docker run --rm --entrypoint php ghcr.io/coollabsio/shoutrrr:latest /var/www/html/artisan key:generate --show
-```
-
-Start Rollset Social with persistent volumes:
-
-```bash
-docker volume create shoutrrr-storage
-docker volume create shoutrrr-sqlite
-
-docker run -d \
-  --name shoutrrr \
-  --env-file .env.prod \
-  -p 8080:8080 \
-  -v shoutrrr-storage:/var/www/html/storage \
-  -v shoutrrr-sqlite:/var/www/html/database/sqlite \
-  ghcr.io/coollabsio/shoutrrr:latest
-```
-
-Rollset Social runs its startup tasks automatically, including database migrations. Open `http://localhost:8080`, register the first account, and you're in. The image defaults to production mode, SQLite, database-backed cache/queue/session storage, one in-container queue worker, one scheduler, and SSR disabled.
-
-The image accepts videos up to Rollset Social's 1 GiB application ceiling by default. Local-disk uploads stream the request body straight to storage and the app bounds how many bytes it writes, so memory and disk usage stay flat no matter the video size. If you place it behind a reverse proxy, set that proxy's request-body limit to at least 1.1 GiB too, and keep `PHP_POST_MAX_SIZE` above the ceiling so a legitimate large upload isn't rejected up front. For large or production deployments, configure S3-compatible object storage (`FILESYSTEM_DISK=s3`): uploads then go directly to storage and never pass through the app at all.
-
-For a real public deployment, set `APP_URL` to your HTTPS domain and set `SESSION_SECURE_COOKIE=true`. To test a specific release candidate, replace `latest` with a version tag such as `1.0.0-rc.2` in the commands above.
-
-To reset all local test data:
-
-```bash
-docker rm -f shoutrrr
-docker volume rm shoutrrr-storage shoutrrr-sqlite
-```
-
-### Docker Compose
-
-If you prefer Compose, use the bundled production file. It pulls the prebuilt image from GHCR (`ghcr.io/coollabsio/shoutrrr:latest`):
+Build Rollset Social from this repository so you run this fork's chrome, not the upstream image.
 
 ```bash
 git clone https://github.com/nickgaiski/rollset-social.git
 cd rollset-social
 cp .env.example.prod .env
-
-# Set APP_KEY and APP_URL in .env before starting.
-docker compose -f docker-compose.production.yaml run --rm app php artisan key:generate --show
-
-docker compose -f docker-compose.production.yaml up -d
 ```
 
-Rollset Social runs its startup tasks automatically, including database migrations. `docker-compose.development.yaml` builds the image locally from source instead.
+Set `APP_KEY`, `APP_URL`, and `APP_ENV=production` in `.env`. Generate a key:
+
+```bash
+docker compose -f docker-compose.development.yaml run --rm --build app php artisan key:generate --show
+```
+
+Paste the key into `.env`, then start from source:
+
+```bash
+docker compose -f docker-compose.development.yaml up -d --build
+```
+
+That Compose file builds the image from this repo's `Dockerfile`. It runs the web app, queue worker, and scheduler in one container — ideal for a single box. It defaults to SQLite with no external services, and you can switch to Postgres/Redis later if you need to scale out.
+
+Rollset Social runs its startup tasks automatically, including database migrations. Open `http://localhost:8080`, register the first account, and you're in.
+
+The app accepts videos up to Rollset Social's 1 GiB application ceiling by default. Local-disk uploads stream the request body straight to storage and the app bounds how many bytes it writes, so memory and disk usage stay flat no matter the video size. If you place it behind a reverse proxy, set that proxy's request-body limit to at least 1.1 GiB too, and keep `PHP_POST_MAX_SIZE` above the ceiling so a legitimate large upload isn't rejected up front. For large or production deployments, configure S3-compatible object storage (`FILESYSTEM_DISK=s3`): uploads then go directly to storage and never pass through the app at all.
+
+For a real public deployment, set `APP_URL` to your HTTPS domain and set `SESSION_SECURE_COOKIE=true`.
+
+To reset all local test data:
+
+```bash
+docker compose -f docker-compose.development.yaml down -v
+```
 
 Set `INERTIA_SSR_ENABLED=true` for server-side rendering. To run the worker/scheduler as separate services in the cloud, set `QUEUE_WORKER_ENABLED=false` / `SCHEDULER_ENABLED=false` and override the container command (e.g. `php artisan queue:work`).
 
@@ -133,7 +97,7 @@ Set `INERTIA_SSR_ENABLED=true` for server-side rendering. To run the worker/sche
 Any Compose-capable host (including [Coolify](https://coolify.io)) can deploy Rollset Social from this repo using the bundled Compose file — it handles the domain, HTTPS, and persistent volumes for you.
 
 1. Create a new resource from **Public Repository** (or Private, via a GitHub App). Enter `https://github.com/nickgaiski/rollset-social`.
-2. Set the **Build Pack** to **Docker Compose** and the **Docker Compose file** to `docker-compose.production.yaml`.
+2. Set the **Build Pack** to **Docker Compose** and the **Docker Compose file** to `docker-compose.development.yaml`.
 3. Under the `app` service, add a **Domain** pointing at port **8080**. TLS is typically provisioned automatically.
 4. Add these **Environment Variables**:
 

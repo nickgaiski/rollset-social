@@ -16,6 +16,10 @@ class CommunityStats
 
     public static function stars(): ?int
     {
+        if (self::repo() === '') {
+            return null;
+        }
+
         $value = Cache::get(self::StarsCacheKey);
 
         return is_int($value) ? $value : null;
@@ -27,6 +31,10 @@ class CommunityStats
      */
     public static function latestVersion(): ?string
     {
+        if (self::repo() === '') {
+            return null;
+        }
+
         return self::selectLatest(
             AppVersion::isPrerelease(),
             self::cachedTag(self::LatestStableCacheKey),
@@ -41,7 +49,27 @@ class CommunityStats
 
     public static function updateAvailable(): bool
     {
+        if (self::repo() === '') {
+            return false;
+        }
+
         return AppVersion::isOutdated(self::latestVersion());
+    }
+
+    /**
+     * Drop leftover GitHub stats so an empty repo cannot surface a stale
+     * "update available" badge from a previous default.
+     */
+    public static function forget(): void
+    {
+        Cache::forget(self::StarsCacheKey);
+        Cache::forget(self::LatestStableCacheKey);
+        Cache::forget(self::LatestOverallCacheKey);
+    }
+
+    public static function repo(): string
+    {
+        return (string) config('instance.community.repo');
     }
 
     private static function cachedTag(string $key): ?string

@@ -68,7 +68,9 @@ it('references the generated icons from Laravel HTML entry points', function ():
             ->toContain('/favicon.ico')
             ->toContain('/favicon.svg')
             ->toContain('/apple-touch-icon.png')
-            ->toContain('/site.webmanifest');
+            ->toContain('/site.webmanifest')
+            ->not->toContain('fonts.googleapis.com')
+            ->not->toContain('fonts.gstatic.com');
     }
 });
 

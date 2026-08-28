@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Community;
 
+use App\Support\CommunityStats;
 use Illuminate\Support\Facades\Http;
 use Throwable;
 
@@ -14,9 +15,11 @@ class GithubStatsFetcher
      */
     public function fetch(): array
     {
-        $repo = (string) config('instance.community.repo');
+        $repo = CommunityStats::repo();
 
         if ($repo === '') {
+            CommunityStats::forget();
+
             return [
                 'stars' => null,
                 'latest_stable' => null,
