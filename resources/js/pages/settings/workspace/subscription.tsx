@@ -113,7 +113,7 @@ export default function Subscription({
 
                 <Card>
                     <CardHeader>
-                        <CardTitle>Shoutrrr Cloud</CardTitle>
+                        <CardTitle>Rollset Social</CardTitle>
                         <CardDescription>
                             Unlimited seats with monthly X publishing included.
                         </CardDescription>

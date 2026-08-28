@@ -1,18 +1,14 @@
 <div align="center">
 
-<img src=".github/assets/og.webp" alt="Shoutrrr" width="100%" />
+<img src="public/favicon.svg" alt="The Slate Mark" width="80" height="80" />
 
-# Shoutrrr
+# Rollset Social
 
 **An open-source, self-hostable alternative to Buffer, Typefully & Hootsuite.**
 
 Write once, publish everywhere. Schedule posts to X, Bluesky, LinkedIn, Facebook, Instagram, Threads, and Discord from one calendar — on your own server, with your own data.
 
-[![License](https://img.shields.io/github/license/coollabsio/shoutrrr?style=for-the-badge&color=4c1)](LICENSE)
-[![Stars](https://img.shields.io/github/stars/coollabsio/shoutrrr?style=for-the-badge&logo=github&color=f5c518)](https://github.com/coollabsio/shoutrrr/stargazers)
-[![Latest release](https://img.shields.io/github/v/release/coollabsio/shoutrrr?style=for-the-badge&logo=github&color=6f42c1&sort=semver)](https://github.com/coollabsio/shoutrrr/releases)
-[![GHCR pulls](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fghcr-badge.elias.eu.org%2Fapi%2Fcoollabsio%2Fshoutrrr%2Fshoutrrr&query=%24.downloadCount&label=docker%20pulls&style=for-the-badge&logo=docker&logoColor=white&color=2496ED)](https://github.com/coollabsio/shoutrrr/pkgs/container/shoutrrr)
-
+[![License](https://img.shields.io/badge/License-Apache_2.0-4c1?style=for-the-badge)](LICENSE)
 [![PHP](https://img.shields.io/badge/PHP-8.5-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://www.php.net)
 [![Laravel](https://img.shields.io/badge/Laravel-13-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
 [![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev)
@@ -21,13 +17,13 @@ Write once, publish everywhere. Schedule posts to X, Bluesky, LinkedIn, Facebook
 
 </div>
 
-## What is Shoutrrr?
+## What is Rollset Social?
 
-Shoutrrr is a social media scheduling tool you run yourself. Connect your accounts, draft a post once, and send it to every network at the same time — or queue it to go out on a recurring schedule. No monthly seat fees, no third party holding your tokens or your data.
+Rollset Social is a social media scheduling tool you run yourself. Connect your accounts, draft a post once, and send it to every network at the same time — or queue it to go out on a recurring schedule. No monthly seat fees, no third party holding your tokens or your data.
 
 It's built for individuals and teams: invite collaborators into a shared workspace, keep clients or brands separated, and see how your posts perform — all from a single, fast interface.
 
-## Why Shoutrrr?
+## Why Rollset Social?
 
 - **You own everything** — your posts, your audience tokens, your analytics. Self-hosted on your infrastructure.
 - **One post, every platform** — compose once and publish to multiple accounts, tweaking the text per network when you want.
@@ -60,7 +56,7 @@ It's built for individuals and teams: invite collaborators into a shared workspa
 
 ## Self-hosting
 
-The recommended way to host Shoutrrr is the prebuilt Docker image:
+The recommended way to host Rollset Social is the prebuilt Docker image:
 
 ```bash
 docker pull ghcr.io/coollabsio/shoutrrr:latest
@@ -85,7 +81,7 @@ Generate an `APP_KEY` and paste it into `.env.prod`:
 docker run --rm --entrypoint php ghcr.io/coollabsio/shoutrrr:latest /var/www/html/artisan key:generate --show
 ```
 
-Start Shoutrrr with persistent volumes:
+Start Rollset Social with persistent volumes:
 
 ```bash
 docker volume create shoutrrr-storage
@@ -100,9 +96,9 @@ docker run -d \
   ghcr.io/coollabsio/shoutrrr:latest
 ```
 
-Shoutrrr runs its startup tasks automatically, including database migrations. Open `http://localhost:8080`, register the first account, and you're in. The image defaults to production mode, SQLite, database-backed cache/queue/session storage, one in-container queue worker, one scheduler, and SSR disabled.
+Rollset Social runs its startup tasks automatically, including database migrations. Open `http://localhost:8080`, register the first account, and you're in. The image defaults to production mode, SQLite, database-backed cache/queue/session storage, one in-container queue worker, one scheduler, and SSR disabled.
 
-The image accepts videos up to Shoutrrr's 1 GiB application ceiling by default. Local-disk uploads stream the request body straight to storage and the app bounds how many bytes it writes, so memory and disk usage stay flat no matter the video size. If you place it behind a reverse proxy, set that proxy's request-body limit to at least 1.1 GiB too, and keep `PHP_POST_MAX_SIZE` above the ceiling so a legitimate large upload isn't rejected up front. For large or production deployments, configure S3-compatible object storage (`FILESYSTEM_DISK=s3`): uploads then go directly to storage and never pass through the app at all.
+The image accepts videos up to Rollset Social's 1 GiB application ceiling by default. Local-disk uploads stream the request body straight to storage and the app bounds how many bytes it writes, so memory and disk usage stay flat no matter the video size. If you place it behind a reverse proxy, set that proxy's request-body limit to at least 1.1 GiB too, and keep `PHP_POST_MAX_SIZE` above the ceiling so a legitimate large upload isn't rejected up front. For large or production deployments, configure S3-compatible object storage (`FILESYSTEM_DISK=s3`): uploads then go directly to storage and never pass through the app at all.
 
 For a real public deployment, set `APP_URL` to your HTTPS domain and set `SESSION_SECURE_COOKIE=true`. To test a specific release candidate, replace `latest` with a version tag such as `1.0.0-rc.2` in the commands above.
 
@@ -118,8 +114,8 @@ docker volume rm shoutrrr-storage shoutrrr-sqlite
 If you prefer Compose, use the bundled production file. It pulls the prebuilt image from GHCR (`ghcr.io/coollabsio/shoutrrr:latest`):
 
 ```bash
-git clone https://github.com/coollabsio/shoutrrr.git
-cd shoutrrr
+git clone https://github.com/nickgaiski/rollset-social.git
+cd rollset-social
 cp .env.example.prod .env
 
 # Set APP_KEY and APP_URL in .env before starting.
@@ -128,19 +124,17 @@ docker compose -f docker-compose.production.yaml run --rm app php artisan key:ge
 docker compose -f docker-compose.production.yaml up -d
 ```
 
-Shoutrrr runs its startup tasks automatically, including database migrations. `docker-compose.development.yaml` builds the image locally from source instead.
+Rollset Social runs its startup tasks automatically, including database migrations. `docker-compose.development.yaml` builds the image locally from source instead.
 
 Set `INERTIA_SSR_ENABLED=true` for server-side rendering. To run the worker/scheduler as separate services in the cloud, set `QUEUE_WORKER_ENABLED=false` / `SCHEDULER_ENABLED=false` and override the container command (e.g. `php artisan queue:work`).
 
-### Deploy with Coolify
+### Deploy with Docker Compose from this repo
 
-[Coolify](https://coolify.io) deploys Shoutrrr straight from this repo using the bundled Compose file — it handles the domain, HTTPS, and persistent volumes for you.
+Any Compose-capable host (including [Coolify](https://coolify.io)) can deploy Rollset Social from this repo using the bundled Compose file — it handles the domain, HTTPS, and persistent volumes for you.
 
-> An official Shoutrrr app is coming to the Coolify app directory soon for one-click deploys. Until then, use the manual from-source method below.
-
-1. In Coolify, click **+ New → Resource** and pick **Public Repository** (or Private, via the GitHub App). Enter `https://github.com/coollabsio/shoutrrr`.
+1. Create a new resource from **Public Repository** (or Private, via a GitHub App). Enter `https://github.com/nickgaiski/rollset-social`.
 2. Set the **Build Pack** to **Docker Compose** and the **Docker Compose file** to `docker-compose.production.yaml`.
-3. Under the `app` service, add a **Domain** pointing at port **8080**. Coolify provisions the TLS certificate automatically.
+3. Under the `app` service, add a **Domain** pointing at port **8080**. TLS is typically provisioned automatically.
 4. Add these **Environment Variables**:
 
     | Variable    | Value                                                                        |
@@ -158,7 +152,7 @@ The Compose file declares named volumes for `storage` and the SQLite database, s
 
 ### Security headers & Content-Security-Policy
 
-Outside `local`, Shoutrrr sends a strict, nonce-based **Content-Security-Policy** along with `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, and (in production) `Strict-Transport-Security`. This is deliberate hardening — but if you customise the frontend or front the app with an unusual proxy/CDN, it's the first place to look when something renders wrong.
+Outside `local`, Rollset Social sends a strict, nonce-based **Content-Security-Policy** along with `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, and (in production) `Strict-Transport-Security`. This is deliberate hardening — but if you customise the frontend or front the app with an unusual proxy/CDN, it's the first place to look when something renders wrong.
 
 **If the UI loads unstyled or a feature is broken, open your browser's dev console and check for CSP violations.** Common causes and fixes (all in `app/Http/Middleware/SecurityHeaders.php`):
 
@@ -172,7 +166,7 @@ The CSP is intentionally **not** sent in `local` (`APP_ENV=local`) because it is
 
 **Bluesky** connects two ways, and neither needs you to register a developer app:
 
-- **OAuth (recommended)** — users sign in on Bluesky and authorize Shoutrrr without handing over a password. It's zero-config: Shoutrrr publishes an [ATProto OAuth](https://atproto.com/specs/oauth) client-metadata document at `${APP_URL}/oauth/bluesky/client-metadata.json` (with keys at `${APP_URL}/oauth/bluesky/jwks.json`), and Bluesky's authorization server fetches those to identify your instance. The signing key is generated once and stored encrypted — there's nothing to add to `.env`. **The one requirement:** `APP_URL` must be a public HTTPS URL, because Bluesky has to reach those two documents over the internet. (In `local` dev, Shoutrrr falls back to a loopback client so OAuth still works on `localhost`.)
+- **OAuth (recommended)** — users sign in on Bluesky and authorize Rollset Social without handing over a password. It's zero-config: Rollset Social publishes an [ATProto OAuth](https://atproto.com/specs/oauth) client-metadata document at `${APP_URL}/oauth/bluesky/client-metadata.json` (with keys at `${APP_URL}/oauth/bluesky/jwks.json`), and Bluesky's authorization server fetches those to identify your instance. The signing key is generated once and stored encrypted — there's nothing to add to `.env`. **The one requirement:** `APP_URL` must be a public HTTPS URL, because Bluesky has to reach those two documents over the internet. (In `local` dev, Rollset Social falls back to a loopback client so OAuth still works on `localhost`.)
 - **App password** — users paste a Bluesky [app password](https://bsky.app/settings/app-passwords). No setup, and it works anywhere — including private or LAN deployments Bluesky can't reach for OAuth.
 
 **X**, **LinkedIn**, and the **Meta** platforms (Facebook, Instagram, Threads) publish through your own developer app, so you'll register one with each provider and add the credentials to `.env`. The redirect URIs must match what you register (they default to `${APP_URL}/...`):
@@ -216,7 +210,7 @@ GOOGLE_REDIRECT_URI="${APP_URL}/auth/google/callback"
 
 ## Development
 
-Shoutrrr is a Laravel 13 (PHP 8.5) app with a React 19 + TypeScript frontend on [Inertia](https://inertiajs.com) v3, [Tailwind v4](https://tailwindcss.com), and [shadcn/ui](https://ui.shadcn.com). It runs on [Laravel Octane](https://laravel.com/docs/octane) (FrankenPHP), with typed routes generated by [Wayfinder](https://github.com/laravel/wayfinder).
+Rollset Social is a Laravel 13 (PHP 8.5) app with a React 19 + TypeScript frontend on [Inertia](https://inertiajs.com) v3, [Tailwind v4](https://tailwindcss.com), and [shadcn/ui](https://ui.shadcn.com). It runs on [Laravel Octane](https://laravel.com/docs/octane) (FrankenPHP), with typed routes generated by [Wayfinder](https://github.com/laravel/wayfinder).
 
 ```bash
 composer setup   # install deps, copy .env, generate app + Passport keys, bun install, build assets
@@ -240,7 +234,7 @@ MAIL_PORT=1025
 MAIL_USERNAME=null
 MAIL_PASSWORD=null
 MAIL_SCHEME=null
-MAIL_FROM_ADDRESS="hello@shoutrrr.local"
+MAIL_FROM_ADDRESS="hello@rollset.app"
 MAIL_FROM_NAME="${APP_NAME}"
 ```
 
@@ -250,14 +244,14 @@ A post is composed once, then split into one **target** per connected account. T
 
 ### API & MCP tokens
 
-The REST API and MCP integration authenticate with bearer tokens minted by [Laravel Passport](https://laravel.com/docs/passport), which signs and verifies every token with an RSA keypair. **You don't need to provision these keys** — the first time a workspace issues an API key, Shoutrrr generates the pair automatically (`ApiKeyManager::ensureEncryptionKeysExist()` runs `passport:keys`) and stores it in `storage/oauth-private.key` / `oauth-public.key`. The bundled Docker setups persist `storage` on a named volume, so the keys survive redeploys.
+The REST API and MCP integration authenticate with bearer tokens minted by [Laravel Passport](https://laravel.com/docs/passport), which signs and verifies every token with an RSA keypair. **You don't need to provision these keys** — the first time a workspace issues an API key, Rollset Social generates the pair automatically (`ApiKeyManager::ensureEncryptionKeysExist()` runs `passport:keys`) and stores it in `storage/oauth-private.key` / `oauth-public.key`. The bundled Docker setups persist `storage` on a named volume, so the keys survive redeploys.
 
 If you'd rather provision them explicitly — for example to share one keypair across multiple app instances behind a load balancer — do either of the following before issuing keys:
 
 - Run `php artisan passport:keys` once and keep `storage` persistent, **or**
 - Set the `PASSPORT_PRIVATE_KEY` and `PASSPORT_PUBLIC_KEY` env vars to the key contents (the auto-generation step is skipped when both are present).
 
-To turn auto-generation off entirely, set `PASSPORT_AUTO_GENERATE_KEYS=false`. Issuing an API key without keys present then fails loudly instead of writing new ones — useful when the keypair is managed externally and Shoutrrr must never mint its own.
+To turn auto-generation off entirely, set `PASSPORT_AUTO_GENERATE_KEYS=false`. Issuing an API key without keys present then fails loudly instead of writing new ones — useful when the keypair is managed externally and Rollset Social must never mint its own.
 
 ### Tooling
 
@@ -299,10 +293,6 @@ Run the full local gate (lint, format, type-check, refactor check, Pest suite) w
 </table>
 
 See all the people who have contributed in the [contributors list](https://github.com/coollabsio/shoutrrr/graphs/contributors).
-
-## Star history
-
-[![RepoStars](https://repostars.dev/api/embed?repo=coollabsio%2Fshoutrrr&theme=noir)](https://repostars.dev/?repos=coollabsio%2Fshoutrrr&theme=noir)
 
 ## License
 

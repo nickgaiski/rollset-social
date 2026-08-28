@@ -71,7 +71,7 @@ describe('sidebar page cache policy', () => {
 });
 
 describe('sidebar app version link', () => {
-    it('renders a version badge that opens the current GitHub release', () => {
+    it('renders the version as text unless a latest-release URL is available', () => {
         const source = readFileSync(
             resolve(
                 process.cwd(),
@@ -80,8 +80,9 @@ describe('sidebar app version link', () => {
             'utf8',
         );
 
-        expect(source).toContain('githubReleaseUrl');
+        expect(source).not.toContain('githubReleaseUrl');
         expect(source).toContain('appVersion');
+        expect(source).toContain('latestReleaseUrl');
         expect(source).toContain('target="_blank"');
         expect(source).toContain('rel="noopener noreferrer"');
     });

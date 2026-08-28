@@ -289,6 +289,10 @@ class HandleInertiaRequests extends Middleware
 
         $repo = (string) config('instance.community.repo');
 
+        if ($repo === '') {
+            return null;
+        }
+
         return [
             'repoUrl' => "https://github.com/{$repo}",
             'sponsorUrl' => (string) config('instance.community.sponsor_url'),
@@ -307,6 +311,10 @@ class HandleInertiaRequests extends Middleware
 
         $latest = CommunityStats::latestVersion();
         $repo = (string) config('instance.community.repo');
+
+        if ($repo === '') {
+            return ['updateAvailable' => true, 'latestVersion' => $latest, 'latestReleaseUrl' => null];
+        }
 
         return [
             'updateAvailable' => true,

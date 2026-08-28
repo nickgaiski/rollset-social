@@ -1,12 +1,12 @@
 {
-  "name": "shoutrrr",
-  "short_name": "shoutrrr",
+  "name": "Rollset Social",
+  "short_name": "Rollset",
   "description": "Self-hosted social media scheduler.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#101010",
-  "theme_color": "#101010",
+  "background_color": "#0C0C0E",
+  "theme_color": "#0C0C0E",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",

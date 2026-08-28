@@ -15,6 +15,15 @@ class GithubStatsFetcher
     public function fetch(): array
     {
         $repo = (string) config('instance.community.repo');
+
+        if ($repo === '') {
+            return [
+                'stars' => null,
+                'latest_stable' => null,
+                'latest_overall' => null,
+            ];
+        }
+
         $releases = $this->releases($repo);
 
         return [

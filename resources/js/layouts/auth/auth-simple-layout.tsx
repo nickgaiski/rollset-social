@@ -19,11 +19,11 @@ export default function AuthSimpleLayout({
                             href={home()}
                             className="flex items-center gap-2 font-medium"
                         >
-                            <div className="flex h-9 w-9 items-center justify-center rounded-md">
-                                <AppLogoIcon className="size-9 text-primary" />
+                            <div className="flex h-9 w-9 items-center justify-center">
+                                <AppLogoIcon className="size-9" />
                             </div>
                             {brandText && (
-                                <span className="text-lg leading-none font-semibold tracking-tight">
+                                <span className="brand-wordmark text-lg leading-none">
                                     {brandText}
                                 </span>
                             )}

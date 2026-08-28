@@ -1,7 +1,6 @@
 import { Link, usePage } from '@inertiajs/react';
 
 import { Button } from '@/components/ui/button';
-import { Heart, Star } from '@/components/ui/icons';
 
 export function formatStars(count: number): string {
     if (count < 1000) {
@@ -15,7 +14,7 @@ export function formatStars(count: number): string {
 }
 
 export function SidebarFooterCard() {
-    const { features, billing, community } = usePage().props;
+    const { features, billing } = usePage().props;
 
     if (features?.billing) {
         // Only surface the upgrade nudge for unsubscribed workspaces. A subscribed
@@ -28,7 +27,7 @@ export function SidebarFooterCard() {
         return (
             <div className="rounded-md border border-sidebar-border p-2 group-data-[collapsible=icon]:hidden">
                 <p className="text-xs font-medium text-sidebar-foreground">
-                    Shoutrrr Cloud
+                    Rollset Social
                 </p>
                 <p className="text-[11px] text-sidebar-foreground/60">
                     Free plan
@@ -44,35 +43,5 @@ export function SidebarFooterCard() {
         );
     }
 
-    if (!community) {
-        return null;
-    }
-
-    return (
-        <div className="flex flex-col gap-0.5 group-data-[collapsible=icon]:hidden">
-            <a
-                href={community.repoUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 rounded-md px-2 py-1.5 text-xs text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground"
-            >
-                <Star className="h-4 w-4" aria-hidden="true" />
-                <span>Star on GitHub</span>
-                {community.stars !== null && (
-                    <span className="ml-auto text-[11px] text-sidebar-foreground/50">
-                        {formatStars(community.stars)}
-                    </span>
-                )}
-            </a>
-            <a
-                href={community.sponsorUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 rounded-md px-2 py-1.5 text-xs text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground"
-            >
-                <Heart className="h-4 w-4" aria-hidden="true" />
-                <span>Sponsor</span>
-            </a>
-        </div>
-    );
+    return null;
 }

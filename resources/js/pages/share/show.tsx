@@ -1,6 +1,7 @@
 import { Head } from '@inertiajs/react';
 import type { ReactNode } from 'react';
 
+import AppLogoIcon from '@/components/layout/app-logo-icon';
 import { PostPreview, StatusChip } from '@/components/posts/post-preview';
 import { dayjs } from '@/lib/datetime/dayjs';
 import type { PublicPostView } from '@/types/share';
@@ -52,8 +53,11 @@ function ShareHeader() {
         <header className="sticky top-0 z-20 border-b border-border/70 bg-background/70 backdrop-blur-xl">
             <div className="mx-auto flex max-w-3xl items-center justify-between gap-3 px-5 py-3 sm:px-8">
                 <div className="flex items-center gap-2.5">
-                    <span className="font-[family-name:var(--font-display)] text-[18px] font-semibold tracking-tight text-foreground">
-                        Shoutrrr
+                    <span className="flex items-center gap-2 font-[family-name:var(--font-sans)]">
+                        <AppLogoIcon className="size-5" />
+                        <span className="brand-wordmark text-[18px] leading-none text-foreground">
+                            Rollset
+                        </span>
                     </span>
                 </div>
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-border/70 bg-card/60 px-3 py-1 text-[11px] font-medium tracking-wide text-muted-foreground">
@@ -90,8 +94,10 @@ function ShareFooter() {
             <div className="mx-auto mb-5 h-px w-16 bg-border" />
             <p className="text-[12px] text-muted-foreground">
                 Shared with{' '}
-                <span className="font-medium text-foreground">Shoutrrr</span> —
-                self-hostable social scheduling.
+                <span className="font-medium text-foreground">
+                    Rollset Social
+                </span>{' '}
+                — self-hostable social scheduling.
             </p>
         </footer>
     );
